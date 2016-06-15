@@ -1,6 +1,8 @@
 Tests
 isbh
 
+.idea/*
+
 # Compiled Object files
 *.slo
 *.lo
