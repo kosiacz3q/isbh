@@ -5,7 +5,7 @@
 #include "Oligo.hpp"
 
 Oligo::Oligo(const std::string &rep, int count)
-	:sequence(rep), _temperature(0), count(count)
+	:sequence(rep),count(count), _temperature(0)
 {
 	for (char c : sequence)
 	{

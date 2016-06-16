@@ -16,9 +16,9 @@ typedef std::shared_ptr<GraphNode> GraphNodePtr;
 struct GraphEdge
 {
 	GraphEdge(const int cost, const GraphNodePtr target)
-			:covering(cost), target(target) {}
+			:coverage(cost), target(target) {}
 
-	int covering;
+	int coverage;
 	GraphNodePtr target;
 };
 
@@ -33,6 +33,8 @@ public:
 
 	int minCount;
 	int maxCount;
+	int currentCount;
+	bool flag;
 };
 
 typedef std::shared_ptr<GraphNode> GraphNodePtr;

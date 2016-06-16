@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 		std::string meta;
 
 		infile >> meta; //header
-		expectedLength = std::string(meta).length();
+		expectedLength = (int) std::string(meta).length();
 
 		infile >> meta; //first oligo
 		graphCreator.markFirst(meta);
@@ -36,9 +36,8 @@ int main(int argc, char** argv)
 		while (infile >> subSequence >> count)
 		{
 			container.push_back(Oligo(subSequence, count));
+			//printf("%s %i\n", subSequence.c_str(), count);
 		}
-
-		container.pop_back();
 
 		for (auto iter = container.begin() + 1; iter != container.end(); ++iter)
 			graphCreator.add(*iter);

@@ -30,7 +30,7 @@ int resolveMax(const int count)
 }
 
 GraphNode::GraphNode(Oligo oligo, int count)
-	:oligo(oligo), minCount(resolveMin(count)), maxCount(resolveMax(count))
+	:oligo(oligo), minCount(resolveMin(count)), maxCount(resolveMax(count)), currentCount(0), flag(false)
 {
 
 }

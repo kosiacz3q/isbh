@@ -23,7 +23,7 @@ void GraphCreator::add(const Oligo& oligo)
 		_last = newNode;
 
 	std::string shortcut;
-	for (int i = 0; i < oligo.sequence.size() - 1; ++i)
+	for (unsigned int i = 0; i < oligo.sequence.size() - 1; ++i)
 	{
 		shortcut += oligo.sequence[i];
 		_shortcuts[shortcut].push_back(newNode);
@@ -44,7 +44,7 @@ void GraphCreator::generateGraph()
 
 	auto nodesToCheck = std::list<GraphNodePtr>();
 
-	std::map<std::string, bool> isChecked;
+	std::map<std::string, bool> isChecked = std::map<std::string, bool>();
 
 	nodesToCheck.push_back(_root);
 	isChecked[_root->oligo.sequence] = true;
@@ -68,7 +68,18 @@ void GraphCreator::generateGraph()
 				for (auto& ngbh : _shortcuts[edgeShortcut])
 				{
 					// printf("Found %s\n", (*ngbh)->oligo.sequence.c_str());
-					currentNode->links.push_back(GraphEdge(edgeVal, ngbh));
+
+					auto iter = std::find_if(currentNode->links.begin(), currentNode->links.end(), [&](const GraphEdge& item){
+						return item.target == ngbh;
+					});
+
+					if (iter != currentNode->links.end())
+					{
+						if (iter->coverage < edgeVal)
+							iter->coverage = edgeVal;
+					}
+					else
+						currentNode->links.push_back(GraphEdge(edgeVal, ngbh));
 
 					if (!isChecked[ngbh->oligo.sequence])
 					{
@@ -77,6 +88,11 @@ void GraphCreator::generateGraph()
 					}
 				}
 		}
+
+		//sort by coverage
+		std::sort(currentNode->links.begin(), currentNode->links.end(), [](const GraphEdge& left, const GraphEdge& right) {
+			return left.coverage > right.coverage;
+		});
 
 		++_processed;
 	}

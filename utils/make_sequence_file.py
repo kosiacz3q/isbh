@@ -30,7 +30,7 @@ def cut_sequence(sequence, outputfile):
 
             end = start + 1
 
-            while end + 1 < len(sequence) and partial_sum(sequence[start:end + 2]) <= 12:
+            while end + 1 < len(sequence) and partial_sum(sequence[start:end + 2]) <= 20:
                 end += 1
 
             cur_seq = sequence[start:end + 1]
