@@ -50,16 +50,11 @@ def cut_sequence(sequence, outputfile):
                 last_oligo = cur_seq
                 break
 
-        out.write(first_oligo + " " + str(dic[first_oligo]) + "\n")
-        del dic[first_oligo]
-
-        last_oligo_count = dic[last_oligo]
-        del dic[last_oligo]
+        out.write(first_oligo + "\n")
+        out.write(last_oligo + "\n")
 
         for k, v in dic.items():
             out.write(k + " " + str(v) + "\n")
-
-        out.write(last_oligo + " " + str(last_oligo_count) + "\n")
 
 if __name__ == "__main__":
     cut_sequence(sys.argv[1], sys.argv[2])
