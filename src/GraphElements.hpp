@@ -16,9 +16,9 @@ typedef std::shared_ptr<GraphNode> GraphNodePtr;
 struct GraphEdge
 {
 	GraphEdge(const int cost, const GraphNodePtr target)
-			:cost(cost), target(target) {}
+			:covering(cost), target(target) {}
 
-	int cost;
+	int covering;
 	GraphNodePtr target;
 };
 
