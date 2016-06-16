@@ -3,10 +3,11 @@
 //
 
 #include <list>
+#include <algorithm>
 #include "GraphCreator.hpp"
 
 GraphCreator::GraphCreator()
-	:_shortcuts(ShortcutsContainer())
+	:_shortcuts(ShortcutsContainer()), _count(0),_processed(0)
 {
 
 }
@@ -15,19 +16,32 @@ void GraphCreator::add(const Oligo& oligo)
 {
 	auto newNode = std::make_shared<GraphNode>(oligo, oligo.count);
 
-	_nodes.push_back(newNode);
+	if (oligo.sequence == _firstSequence)
+		_root = newNode;
+
+	if (oligo.sequence == _lastSequence)
+		_last = newNode;
 
 	std::string shortcut;
 	for (int i = 0; i < oligo.sequence.size() - 1; ++i)
 	{
 		shortcut += oligo.sequence[i];
-		//printf("Adding shortcut %s for %s\n", shortcut.c_str(), oligo.sequence.c_str());
 		_shortcuts[shortcut].push_back(newNode);
 	}
+
+	++_count;
 }
 
 void GraphCreator::generateGraph()
 {
+	//sorting by length descending
+	for (auto& kv : _shortcuts)
+	{
+		std::sort(kv.second.begin(), kv.second.end(), [](const GraphNodePtr& left, const GraphNodePtr& right) {
+			return left->oligo.sequence.size() >  right->oligo.sequence.size();
+		});
+	}
+
 	auto nodesToCheck = std::list<GraphNodePtr>();
 
 	std::map<std::string, bool> isChecked;
@@ -50,29 +64,35 @@ void GraphCreator::generateGraph()
 			//printf("%s\n", edgeShortcut.c_str());
 			++edgeVal;
 
-			for (const GraphNodePtr& ngbh : _shortcuts[edgeShortcut])
-			{
-				//printf("Found\n");
-				currentNode->links.push_back(GraphEdge(edgeVal, ngbh));
-
-				if (!isChecked[ngbh->oligo.sequence])
+			if (_shortcuts.find(edgeShortcut) != _shortcuts.end())
+				for (auto& ngbh : _shortcuts[edgeShortcut])
 				{
-					nodesToCheck.push_back(ngbh);
-					isChecked[ngbh->oligo.sequence] = true;
+					// printf("Found %s\n", (*ngbh)->oligo.sequence.c_str());
+					currentNode->links.push_back(GraphEdge(edgeVal, ngbh));
+
+					if (!isChecked[ngbh->oligo.sequence])
+					{
+						nodesToCheck.push_back(ngbh);
+						isChecked[ngbh->oligo.sequence] = true;
+					}
 				}
-			}
 		}
 
+		++_processed;
 	}
 }
 
-void GraphCreator::addFirst(const Oligo &oligo)
+void GraphCreator::markFirst(const std::string &sequence)
 {
-	add(oligo);
-
-	_root = _nodes.front();
-	_nodes.pop_back();
+	_firstSequence = sequence;
 }
+
+void GraphCreator::markLast(const std::string &sequence)
+{
+	_lastSequence = sequence;
+}
+
+
 
 
 

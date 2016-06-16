@@ -12,7 +12,7 @@ int resolveMin(const int count)
 	if (count > 3 && count <= 5)
 		return 4;
 
-	return 6;
+	return 7;
 }
 
 int resolveMax(const int count)

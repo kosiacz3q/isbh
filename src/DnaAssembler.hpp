@@ -11,7 +11,8 @@
 
 class DnaAssembler
 {
-	std::string getSequence(const GraphNodePtr first, const GraphNodePtr last);
+public:
+	std::string getSequence(const GraphNodePtr first, const GraphNodePtr last, const int expectedLength);
 };
 
 

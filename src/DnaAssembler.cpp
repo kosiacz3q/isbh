@@ -4,7 +4,7 @@
 
 #include "DnaAssembler.hpp"
 
-std::string DnaAssembler::getSequence(const GraphNodePtr first, const GraphNodePtr last)
+std::string DnaAssembler::getSequence(const GraphNodePtr first, const GraphNodePtr last, const int expectedLength)
 {
 
 	return "";

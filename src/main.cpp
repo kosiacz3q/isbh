@@ -5,46 +5,54 @@
 
 #include "Oligo.hpp"
 #include "GraphCreator.hpp"
+#include "DnaAssembler.hpp"
 
 using namespace std;
-
-
-std::vector<Oligo> readOligosFromFile(const std::string file);
 
 int main(int argc, char** argv)
 {
 	auto graphCreator = GraphCreator();
+	int expectedLength;
 
 	{
 		std::string inputFile = std::string(argv[1]);
+		std::ifstream infile(inputFile);
 
-		auto oligos = readOligosFromFile(inputFile);
+		std::string meta;
 
-		graphCreator.addFirst(oligos.front());
+		infile >> meta; //header
+		expectedLength = std::string(meta).length();
 
-		for (auto iter = oligos.begin() + 1; iter != oligos.end(); ++iter)
+		infile >> meta; //first oligo
+		graphCreator.markFirst(meta);
+		infile >> meta; //last oligo
+		graphCreator.markLast(meta);
+
+		std::string subSequence;
+		int count;
+
+		auto container = std::vector<Oligo>();
+
+		while (infile >> subSequence >> count)
+		{
+			container.push_back(Oligo(subSequence, count));
+		}
+
+		container.pop_back();
+
+		for (auto iter = container.begin() + 1; iter != container.end(); ++iter)
 			graphCreator.add(*iter);
 	}
 
-	return 0;
-}
+	graphCreator.generateGraph();
 
-
-std::vector<Oligo> readOligosFromFile(const std::string file)
-{
-	std::ifstream infile(file);
-
-	std::string subSequence;
-	int count;
-
-	infile >> subSequence; //header
-
-	auto container = std::vector<Oligo>();
-
-	while (infile >> subSequence >> count)
+	if (!graphCreator.isValid())
 	{
-		container.push_back(Oligo(subSequence, count));
+		printf("Feed is invalid (there are unreachable oligos)\n");
+		exit(1);
 	}
 
-	return container;
+	printf("%s", DnaAssembler().getSequence(graphCreator.getRoot(), graphCreator.getLast(), expectedLength).c_str());
+
+	return 0;
 }

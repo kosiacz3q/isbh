@@ -16,23 +16,41 @@ public:
 
 	void add(const Oligo&);
 
-	void addFirst(const Oligo&);
+	void markFirst(const std::string &sequence);
+	void markLast(const std::string &sequence);
 
 	void generateGraph();
+
+	bool isValid() const
+	{
+		return _count == _processed;
+	}
 
 	GraphNodePtr getRoot()
 	{
 		return _root;
 	}
 
+	GraphNodePtr getLast() const
+	{
+		return _last;
+	}
+
+
+
 private:
 
 	GraphNodePtr _root;
-	std::vector<GraphNodePtr> _nodes;
+	GraphNodePtr _last;
 
 	typedef std::map<std::string, std::vector<GraphNodePtr>> ShortcutsContainer;
 
 	ShortcutsContainer _shortcuts;
+
+	std::string _firstSequence;
+	std::string _lastSequence;
+	int _count;
+	int _processed;
 };
 
 
