@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 	std::string seq = DnaAssembler().getSequence(graphCreator.getRoot(), expectedLength);
 	const clock_t end_time = clock();
 
-	std::cout<<"time spent "<< (float( end_time - begin_time ) /  CLOCKS_PER_SEC ) << " seq "<<seq<<std::endl;
+	std::cout<< (float( end_time - begin_time ) /  CLOCKS_PER_SEC ) << ";"<<seq<<std::endl;
 
 	return 0;
 }
