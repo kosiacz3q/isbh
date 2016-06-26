@@ -12,7 +12,7 @@
 class DnaAssembler
 {
 public:
-	std::string getSequence(const GraphNodePtr first, const GraphNodePtr last, const int expectedLength);
+	std::string getSequence(const GraphNodePtr first, const int expectedLength);
 };
 
 

@@ -11,7 +11,8 @@ set(SOURCE_FILES
         src/Oligo.cpp
         src/GraphCreator.cpp
         src/GraphElements.cpp
-        src/DnaAssembler.cpp)
+        src/DnaAssembler.cpp
+        src/utils.cpp)
 
 add_executable(isbh ${SOURCE_FILES} src/main.cpp)
 

@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 #include "Oligo.hpp"
 #include "GraphCreator.hpp"
@@ -21,12 +22,12 @@ int main(int argc, char** argv)
 		std::string meta;
 
 		infile >> meta; //header
+		//printf("result sequence should be [%s]\n", meta.c_str());
 		expectedLength = (int) std::string(meta).length();
 
 		infile >> meta; //first oligo
+		//printf("first oligo should be [%s]\n", meta.c_str());
 		graphCreator.markFirst(meta);
-		infile >> meta; //last oligo
-		graphCreator.markLast(meta);
 
 		std::string subSequence;
 		int count;
@@ -35,12 +36,10 @@ int main(int argc, char** argv)
 
 		while (infile >> subSequence >> count)
 		{
-			container.push_back(Oligo(subSequence, count));
-			//printf("%s %i\n", subSequence.c_str(), count);
+			//container.push_back(Oligo(subSequence, count));
+			//printf("[%s] %i\n", subSequence.c_str(), count);
+			graphCreator.add(Oligo(subSequence, count));
 		}
-
-		for (auto iter = container.begin() + 1; iter != container.end(); ++iter)
-			graphCreator.add(*iter);
 	}
 
 	graphCreator.generateGraph();
@@ -51,7 +50,12 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 
-	printf("%s", DnaAssembler().getSequence(graphCreator.getRoot(), graphCreator.getLast(), expectedLength).c_str());
+	const clock_t begin_time = clock();
+
+	std::string seq = DnaAssembler().getSequence(graphCreator.getRoot(), expectedLength);
+	const clock_t end_time = clock();
+
+	std::cout<<"time spent "<< (float( end_time - begin_time ) /  CLOCKS_PER_SEC ) << " seq "<<seq<<std::endl;
 
 	return 0;
 }

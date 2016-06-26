@@ -1,6 +1,8 @@
 #include "GraphElements.hpp"
 #include <limits>
 
+int GraphNode::idSeq = 0;
+
 int resolveMin(const int count)
 {
 	if (count == 1)
@@ -30,7 +32,7 @@ int resolveMax(const int count)
 }
 
 GraphNode::GraphNode(Oligo oligo, int count)
-	:oligo(oligo), minCount(resolveMin(count)), maxCount(resolveMax(count)), currentCount(0), flag(false)
+	:oligo(oligo), minCount(resolveMin(count)), maxCount(resolveMax(count)), currentCount(0), flag(false), uniqueId(++idSeq)
 {
 
 }

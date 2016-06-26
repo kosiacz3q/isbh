@@ -35,8 +35,10 @@ public:
 	int maxCount;
 	int currentCount;
 	bool flag;
-};
 
-typedef std::shared_ptr<GraphNode> GraphNodePtr;
+	int uniqueId;
+private:
+	static int idSeq;
+};
 
 #endif //ISBH_GRAPHNODE_HPP

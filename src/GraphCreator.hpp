@@ -14,10 +14,9 @@ public:
 
 	GraphCreator();
 
-	void add(const Oligo&);
+	void add(const Oligo);
 
 	void markFirst(const std::string &sequence);
-	void markLast(const std::string &sequence);
 
 	void generateGraph();
 
@@ -31,17 +30,9 @@ public:
 		return _root;
 	}
 
-	GraphNodePtr getLast() const
-	{
-		return _last;
-	}
-
-
-
 private:
 
 	GraphNodePtr _root;
-	GraphNodePtr _last;
 
 	typedef std::map<std::string, std::vector<GraphNodePtr>> ShortcutsContainer;
 

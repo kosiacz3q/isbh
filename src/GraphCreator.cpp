@@ -12,15 +12,15 @@ GraphCreator::GraphCreator()
 
 }
 
-void GraphCreator::add(const Oligo& oligo)
+void GraphCreator::add(const Oligo oligo)
 {
 	auto newNode = std::make_shared<GraphNode>(oligo, oligo.count);
 
 	if (oligo.sequence == _firstSequence)
+	{
 		_root = newNode;
-
-	if (oligo.sequence == _lastSequence)
-		_last = newNode;
+		//printf("root node is id[%i] seq[%s]\n", _root->uniqueId, _root->oligo.sequence.c_str());
+	}
 
 	std::string shortcut;
 	for (unsigned int i = 0; i < oligo.sequence.size() - 1; ++i)
@@ -44,22 +44,25 @@ void GraphCreator::generateGraph()
 
 	auto nodesToCheck = std::list<GraphNodePtr>();
 
-	std::map<std::string, bool> isChecked = std::map<std::string, bool>();
+	std::map<GraphNodePtr, bool> isChecked = std::map<GraphNodePtr, bool>();
 
 	nodesToCheck.push_back(_root);
-	isChecked[_root->oligo.sequence] = true;
+	isChecked[_root] = true;
+	//printf("root %i\n", _root->uniqueId);
+	std::string edgeShortcut = "";
 
 	while(!nodesToCheck.empty())
 	{
 		auto currentNode = nodesToCheck.front();
 		nodesToCheck.pop_front();
 
+		//printf("checking %i\n", currentNode->uniqueId);
+
 		int edgeVal = 0;
-		std::string edgeShortcut = "";
+		edgeShortcut = "";
 
 		for (int i = (int) (currentNode->oligo.sequence.size() - 1); i > 0; --i)
 		{
-
 			edgeShortcut = currentNode->oligo.sequence[i] + edgeShortcut;
 			//printf("%s\n", edgeShortcut.c_str());
 			++edgeVal;
@@ -69,6 +72,7 @@ void GraphCreator::generateGraph()
 				{
 					// printf("Found %s\n", (*ngbh)->oligo.sequence.c_str());
 
+					/*
 					auto iter = std::find_if(currentNode->links.begin(), currentNode->links.end(), [&](const GraphEdge& item){
 						return item.target == ngbh;
 					});
@@ -79,12 +83,14 @@ void GraphCreator::generateGraph()
 							iter->coverage = edgeVal;
 					}
 					else
-						currentNode->links.push_back(GraphEdge(edgeVal, ngbh));
+					*/
 
-					if (!isChecked[ngbh->oligo.sequence])
+					currentNode->links.push_back(GraphEdge(edgeVal, ngbh));
+
+					if (!isChecked[ngbh])
 					{
 						nodesToCheck.push_back(ngbh);
-						isChecked[ngbh->oligo.sequence] = true;
+						isChecked[ngbh] = true;
 					}
 				}
 		}
@@ -101,11 +107,6 @@ void GraphCreator::generateGraph()
 void GraphCreator::markFirst(const std::string &sequence)
 {
 	_firstSequence = sequence;
-}
-
-void GraphCreator::markLast(const std::string &sequence)
-{
-	_lastSequence = sequence;
 }
 
 
