@@ -1,0 +1,12 @@
+c:\users\mateusz\documents\visual studio 2013\Projects\ISBHHH\ISBHHH\bin\Debug\ISBHHH.exe.config
+c:\users\mateusz\documents\visual studio 2013\Projects\ISBHHH\ISBHHH\bin\Debug\ISBHHH.exe
+c:\users\mateusz\documents\visual studio 2013\Projects\ISBHHH\ISBHHH\bin\Debug\ISBHHH.pdb
+c:\users\mateusz\documents\visual studio 2013\Projects\ISBHHH\ISBHHH\obj\Debug\ISBHHH.csprojResolveAssemblyReference.cache
+c:\users\mateusz\documents\visual studio 2013\Projects\ISBHHH\ISBHHH\obj\Debug\ISBHHH.exe
+c:\users\mateusz\documents\visual studio 2013\Projects\ISBHHH\ISBHHH\obj\Debug\ISBHHH.pdb
+C:\Users\Mateusz\Desktop\temp\ISBHHH\bin\Debug\ISBHHH.exe.config
+C:\Users\Mateusz\Desktop\temp\ISBHHH\obj\Debug\ISBHHH.exe
+C:\Users\Mateusz\Desktop\temp\ISBHHH\obj\Debug\ISBHHH.pdb
+C:\Users\Mateusz\Desktop\temp\ISBHHH\bin\Debug\ISBHHH.exe
+C:\Users\Mateusz\Desktop\temp\ISBHHH\bin\Debug\ISBHHH.pdb
+C:\Users\Mateusz\Desktop\temp\ISBHHH\obj\Debug\ISBHHH.csprojResolveAssemblyReference.cache
